@@ -3,38 +3,45 @@
 const roll = document.querySelector('.btn--roll')
 const dice = document.querySelector('.dice')
 const hold = document.querySelector('.btn--hold')
-const player1 = document.getElementById('current--0')
-const player2 = document.getElementById('current--1')
+const player1 = document.querySelector('.player--0')
+const player2 = document.querySelector('.player--1')
 
 let active = player1
 
-const handleRollDice = () => {
-    
+
+
+const handleRollDice = () => {    
     dice.classList.remove('hidden')
+    const scoreElement = active.querySelector('.current-score')
+    const playerScore = Number(scoreElement.textContent) 
 
-    const score1 = Number(player1.textContent)
-    const score2 = Number(player2.textContent)
-
-
-
+    
     const roll = Math.floor(Math.random() * 6) + 1
 
     dice.src = `/img/dice-${roll}.png`
+    scoreElement.textContent = playerScore + roll
 
-    player1.textContent = score1 + roll
+   
 }
 
 const handleHold = () => {
-    active = player2
+    let score = active.querySelector('.score')
+    const scoreElement = active.querySelector('.current-score')
+    score.textContent = Number(score.textContent) + Number(scoreElement.textContent) 
+    scoreElement.textContent = 0
+    
+    active = active === player1 ? player2 : player1;
 
-    if (active == player2) {
-        player1.classList.remove('player--active')
-        player2.classList.add('player--active')
+    // Update classes
+    if (active === player2) {
+        player1.classList.remove('player--active');
+        player2.classList.add('player--active');
     } else {
-        player2.classList.remove('player--active')
-        player1.classList.add('player--active')
+        player2.classList.remove('player--active');
+        player1.classList.add('player--active');
     }
-    console.log(active)
+
+    
 }
 
 roll.addEventListener('click', handleRollDice)
