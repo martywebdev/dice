@@ -22,6 +22,7 @@ const handleRollDice = () => {
     if (roll === 1) {
         handleHold(false)
     }
+    
 }
 
 const handleActiveStyles = () => {
@@ -45,9 +46,14 @@ const handleHold = (roll = true ) => {
    
     scoreElement.textContent = 0
     
+    if (Number(score.textContent) >= 20) {
+        rollButton.disabled = true
+        holdButton.disabled = true
+        active.classList.add('player--winner')
+    }
     active = active === player1 ? player2 : player1;
-    handleActiveStyles()
-    
+
+    handleActiveStyles()     
 }
 
 const handleReset = () => {
@@ -56,6 +62,9 @@ const handleReset = () => {
     player2.querySelector('.score').textContent = 0
     player1.querySelector('.current-score').textContent = 0
     player2.querySelector('.current-score').textContent = 0
+    active.classList.remove('player--winner')
+    rollButton.removeAttribute('disabled')
+    holdButton.removeAttribute('disabled')
     handleActiveStyles()
 }
 
