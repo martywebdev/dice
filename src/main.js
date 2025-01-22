@@ -1,14 +1,13 @@
 "use strict"
 
-const roll = document.querySelector('.btn--roll')
+const rollButton = document.querySelector('.btn--roll')
 const dice = document.querySelector('.dice')
-const hold = document.querySelector('.btn--hold')
+const holdButton = document.querySelector('.btn--hold')
 const player1 = document.querySelector('.player--0')
 const player2 = document.querySelector('.player--1')
+const newGameButton = document.querySelector('.btn--new')
 
 let active = player1
-
-
 
 const handleRollDice = () => {    
     dice.classList.remove('hidden')
@@ -25,6 +24,16 @@ const handleRollDice = () => {
     }
 }
 
+const handleActiveStyles = () => {
+    if (active === player2) {
+        player1.classList.remove('player--active');
+        player2.classList.add('player--active');
+    } else {
+        player2.classList.remove('player--active');
+        player1.classList.add('player--active');
+    }
+}
+
 const handleHold = (roll = true ) => {
     
     let score = active.querySelector('.score')
@@ -37,21 +46,21 @@ const handleHold = (roll = true ) => {
     scoreElement.textContent = 0
     
     active = active === player1 ? player2 : player1;
-
-    if (active === player2) {
-        player1.classList.remove('player--active');
-        player2.classList.add('player--active');
-    } else {
-        player2.classList.remove('player--active');
-        player1.classList.add('player--active');
-    }
+    handleActiveStyles()
+    
 }
 
-roll.addEventListener('click', handleRollDice)
-hold.addEventListener('click', handleHold)
-
-const initialize = () => {
-    dice.classList.add('hidden')
+const handleReset = () => {
+    active = player1
+    player1.querySelector('.score').textContent = 0
+    player2.querySelector('.score').textContent = 0
+    player1.querySelector('.current-score').textContent = 0
+    player2.querySelector('.current-score').textContent = 0
+    handleActiveStyles()
 }
 
-initialize()
+rollButton.addEventListener('click', handleRollDice)
+holdButton.addEventListener('click', handleHold)
+newGameButton.addEventListener('click', handleReset)
+
+dice.classList.add('hidden')
